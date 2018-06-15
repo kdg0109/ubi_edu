@@ -64,8 +64,7 @@ public class Ddes
                 }
                 catch ( Exception e )
                 {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    throw new UbiveloxException("cipher 에러");
                 }
                
             }
@@ -92,8 +91,7 @@ public class Ddes
             }
             catch ( Exception e )
             {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                throw new UbiveloxException("cipher 에러");
             }
 
         }
@@ -116,8 +114,7 @@ public class Ddes
             }
             catch ( Exception e )
             {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                throw new UbiveloxException("cipher 에러");
             }
             
             // AES 16비트 키
@@ -147,8 +144,7 @@ public class Ddes
             }
             catch ( Exception e )
             {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                throw new UbiveloxException("cipher 에러");
             }
         }
 
@@ -179,8 +175,7 @@ public class Ddes
         }
         catch ( Exception e )
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new UbiveloxException("암호화 에러");
         }
 
         return GaiaUtils.convertByteArrayToHexaString(outputBytes);
@@ -205,10 +200,8 @@ public class Ddes
             outputBytes = cipher.doFinal(inputBytes);
             return new String(outputBytes, "UTF8");
         }catch(Exception e) {
-            e.printStackTrace();
+            throw new UbiveloxException("복호화 에러");
         }
-        
-        throw new UbiveloxException("복호화 에러");
     }
 
 
@@ -265,7 +258,7 @@ public class Ddes
         return strResult;
     }
     
-    public static byte[] retailMac(final byte[] key, final byte[] data) throws GaiaException
+    public static byte[] retailMac(final byte[] key, final byte[] data) throws GaiaException, UbiveloxException
     {
         GaiaUtils.checkNullOrEmpty(key, data);
         int loc = 0;
@@ -301,7 +294,7 @@ public class Ddes
         }
         catch ( Exception e )
         {
-            e.printStackTrace();
+            throw new UbiveloxException("cipher 에러");
         }
         return edata;
     }

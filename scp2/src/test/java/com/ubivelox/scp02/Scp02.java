@@ -72,7 +72,7 @@ public class Scp02
         // constant for R-MAC: '0102'
         // constant for S-ENC: '0182'
         // constant for DEK: '0181'
-        
+         
         byte[] keyType = null;
         String sessionType = "";
 
@@ -105,20 +105,20 @@ public class Scp02
 
 
  // off-Card가 Card로 보내는 ExternalAuthenticate APDU
-    public static String externalAuthenticate(final String InitializeUpdate_R_APDU) throws UbiveloxException, GaiaException
+    public static String externalAuthenticate(final String InitializeUpdateRAPDU) throws UbiveloxException, GaiaException
     {
-        GaiaUtils.checkHexaString(InitializeUpdate_R_APDU);
+        GaiaUtils.checkHexaString(InitializeUpdateRAPDU);
 //        CardImpl cardImpl = new CardImpl();
 //        String initializeUpdateResponse = cardImpl.sendApdu(OffCard.InitializeUpdate_C_APDU);
-
+ 
         
         // 84 82 00 00 10 70CA81178C079A4A 114998A816CBF511
         // host cryptogram과 MAC 생성
-        String initializeUpdate_C_APDU = OffCard.InitializeUpdate_C_APDU;
+        String initializeUpdateCAPDU = OffCard.InitializeUpdate_C_APDU;
     
-        String hostChallenge = initializeUpdate_C_APDU.substring(10, initializeUpdate_C_APDU.length());
-        String sequenceCounter = InitializeUpdate_R_APDU.substring(24, 28);
-        String cardChallenge = InitializeUpdate_R_APDU.substring(28, 40);
+        String hostChallenge = initializeUpdateCAPDU.substring(10, initializeUpdateCAPDU.length());
+        String sequenceCounter = InitializeUpdateRAPDU.substring(24, 28);
+        String cardChallenge = InitializeUpdateRAPDU.substring(28, 40);
              
         String sessionkey = getSessionKeyENC("S-ENC", sequenceCounter);
             
@@ -139,17 +139,17 @@ public class Scp02
 
             // 848200001070CA81178C079A4A8000000000000000
             // C-MAC 구해야함 Retail Mac
+ 
+        String externalAuthenticateCAPDU = OffCard.ExternalAuthenticate_C_APDU;
 
-        String externalAuthenticate_C_APDU = OffCard.ExternalAuthenticate_C_APDU;
-
-        String dataTmp = externalAuthenticate_C_APDU.substring(0, externalAuthenticate_C_APDU.length() - 16) + "800000";
+        String dataTmp = externalAuthenticateCAPDU.substring(0, externalAuthenticateCAPDU.length() - 16) + "800000";
         System.out.println("dataTmp : " + dataTmp + " / " + dataTmp.length());
 
         byte[] result = Ddes.retailMac(sessionkeyByteArray, GaiaUtils.convertHexaStringToByteArray(dataTmp));
         System.out.println("result : " + GaiaUtils.convertByteArrayToHexaString(result));
-        System.out.println("result2 : " + externalAuthenticate_C_APDU.substring(externalAuthenticate_C_APDU.length()-16));
+        System.out.println("result2 : " + externalAuthenticateCAPDU.substring(externalAuthenticateCAPDU.length()-16));
 
-        if(GaiaUtils.convertByteArrayToHexaString(result).equals(externalAuthenticate_C_APDU.substring(externalAuthenticate_C_APDU.length()-16))) {
+        if(GaiaUtils.convertByteArrayToHexaString(result).equals(externalAuthenticateCAPDU.substring(externalAuthenticateCAPDU.length()-16))) {
             return OffCard.ExternalAuthenticate_C_APDU; 
         }
         

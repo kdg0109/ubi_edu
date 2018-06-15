@@ -1,24 +1,15 @@
 package com.ubivelox.scp02;
 
 import static org.junit.Assert.assertEquals;
-
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.when;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.ubivelox.gaia.GaiaException;
 import com.ubivelox.scp02.Scp02.Card;
 import com.ubivelox.scp02.Scp02.OffCard;
-
-
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.never;
 
 import exception.UbiveloxException;
 

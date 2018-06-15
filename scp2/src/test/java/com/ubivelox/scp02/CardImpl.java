@@ -13,23 +13,23 @@ public class CardImpl implements CApduService
    
  // off-Card I.U의 헥사 스트링을 받아 off-Card로 보내는 R-APDU
     @Override
-    public String sendApdu(final String D1) throws GaiaException, UbiveloxException
+    public String sendApdu(final String initializeUpdateCAPDU) throws GaiaException, UbiveloxException
     {
-        GaiaUtils.checkHexaString(D1);
-        String hostChallenge = D1.substring(10, D1.length());
+        GaiaUtils.checkHexaString(initializeUpdateCAPDU);
+        String hostChallenge = initializeUpdateCAPDU.substring(10, initializeUpdateCAPDU.length());
 
-        String D2 = Card.InitializeUpdate_R_APDU;
-        String sequenceCounter = D2.substring(24, 28);
-        String cardChallenge = D2.substring(28, 40);
+        String initializeUpdateRAPDU = Card.InitializeUpdate_R_APDU;
+        String sequenceCounter = initializeUpdateRAPDU.substring(24, 28);
+        String cardChallenge = initializeUpdateRAPDU.substring(28, 40);
 
         String sessionkey = Scp02.getSessionKeyENC("S-ENC", sequenceCounter);
         byte[] sessionkeyArray = GaiaUtils.convertHexaStringToByteArray(sessionkey + sessionkey.substring(0, sessionkey.length() / 2));
 
         String cardCryptogramTmp = Ddes.encrypt(hostChallenge + sequenceCounter + cardChallenge + "8000000000000000", "DESede", "DESede/CBC/NoPadding", sessionkeyArray);
 
-        if ( D2.substring(D2.length()-16).equals(cardCryptogramTmp.substring(cardCryptogramTmp.length() - 16)) )
+        if ( initializeUpdateRAPDU.substring(initializeUpdateRAPDU.length()-16).equals(cardCryptogramTmp.substring(cardCryptogramTmp.length() - 16)) )
         {
-            return D2;
+            return initializeUpdateRAPDU;
         }
         else
         {
