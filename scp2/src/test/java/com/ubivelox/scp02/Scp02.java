@@ -53,14 +53,14 @@ public class Scp02
 
 
     // off-Card가 Card로 보내는 APDU
-    public static String initializeUpdate(final String hexString) throws GaiaException, UbiveloxException
+    public static String initializeUpdate(final String hostChallenge) throws GaiaException, UbiveloxException
     {
-        GaiaUtils.checkHexaString(hexString);
+        GaiaUtils.checkHexaString(hostChallenge);
         
-        if(hexString.length() != 16) {
+        if(hostChallenge.length() != 16) {
             throw new UbiveloxException("data가 일치 하지 않음");
         }
-        String hostChallenge = hexString;
+
         String cAPDU = OffCard.InitializeUpdate_C_APDU.substring(0, 10) + hostChallenge;
         return cAPDU;
     }

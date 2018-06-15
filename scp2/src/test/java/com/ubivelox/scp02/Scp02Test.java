@@ -20,8 +20,8 @@ public class Scp02Test
     @Test
     public void test2() throws GaiaException, UbiveloxException
     { 
-        settingAPDU("8050000008EC78EEA2438008A6", "00009151026881950639FF02000D4EB131EA95DE5D29FCFE72F724DC", "848200001070CA81178C079A4A114998A816CBF511");      
-        getMutualAuthentication("EC78EEA2438008A6");
+//        settingAPDU("8050000008EC78EEA2438008A6", "00009151026881950639FF02000D4EB131EA95DE5D29FCFE72F724DC", "848200001070CA81178C079A4A114998A816CBF511");      
+//        getMutualAuthentication("EC78EEA2438008A6");
         
         settingAPDU("8050000008129662F59920C835", "000091510268819506390102000A381AD0F539849DBF08E431EDC88A", "84820300104EDEB2A02F676522F80AA680FE762E76");
         getMutualAuthentication("129662F59920C835");
@@ -56,6 +56,10 @@ public class Scp02Test
         when(capduService.sendApdu(anyString())).thenReturn(OffCard.ExternalAuthenticate_C_APDU);
         
         assertEquals(OffCard.ExternalAuthenticate_C_APDU, capduService.sendApdu(""));
+        
+        //확인
+//        assertEquals(OffCard.ExternalAuthenticate_C_APDU, Scp02.externalAuthenticate(Card.InitializeUpdate_R_APDU));
+
     }
     
     private void settingAPDU(String initializeUpdate_C_APDU, String initializeUpdate_R_APDU, String externalAuthenticate_C_APDU)
