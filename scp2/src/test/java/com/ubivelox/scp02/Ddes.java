@@ -63,9 +63,9 @@ public class Ddes
         }
         else if ( transformation.contains("DES/CBC") )
         {
-            SecretKeySpec keySpec = null;
+            SecretKey keySpec = null;
 
-            keySpec = new SecretKeySpec(keyData8, encryptType);
+            keySpec = new SecretKeySpec(baseKey, encryptType);
 
             // iv를 0으로 초기화
             byte[] iv = new byte[8];
@@ -95,7 +95,7 @@ public class Ddes
         }
         else if ( transformation.contains("AES") )
         {
-            SecretKeySpec keySpec = null;
+            SecretKey keySpec = null;
 
             keySpec = new SecretKeySpec(keyData16, encryptType);
 
