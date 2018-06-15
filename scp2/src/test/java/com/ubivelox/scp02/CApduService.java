@@ -7,5 +7,5 @@ import exception.UbiveloxException;
 public interface CApduService
 {
     // C-APDU 구현
-    public String sendApdu(final String initializeUpdateCAPDU) throws GaiaException, UbiveloxException;
+    public String sendApdu(final String cApdu) throws GaiaException, UbiveloxException;
 }

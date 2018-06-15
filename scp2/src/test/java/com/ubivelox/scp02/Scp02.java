@@ -1,7 +1,14 @@
 package com.ubivelox.scp02;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.when;
+
+import org.powermock.api.mockito.PowerMockito;
+
 import com.ubivelox.gaia.GaiaException;
 import com.ubivelox.gaia.util.GaiaUtils;
+import com.ubivelox.scp02.Scp02.OffCard;
 
 import exception.UbiveloxException;
 
@@ -14,6 +21,22 @@ public class Scp02
     // ENC Key : 404043434545464649494A4A4C4C4F4F
     // MAC Key : 404043434545464649494A4A4C4C4F4F
     // DE Key : 404043434545464649494A4A4C4C4F4F
+
+    static CApduService capduService;
+    
+    public static CApduService getCapduService()
+    {
+        return capduService;
+    }
+
+
+    public static void setCapduService(CApduService capduService)
+    {
+        Scp02.capduService = capduService;
+    }
+
+
+
 
     public static class OffCard
     {
@@ -49,7 +72,11 @@ public class Scp02
     }
     
 
+    public static void getMutualAuthentication(String hostChallenge) throws GaiaException, UbiveloxException{
+        
+        capduService.sendApdu(externalAuthenticate(capduService.sendApdu(initializeUpdate(hostChallenge))));
 
+    }
 
 
     // off-Card가 Card로 보내는 APDU
